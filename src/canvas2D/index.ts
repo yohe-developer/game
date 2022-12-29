@@ -18,7 +18,9 @@ export class Canvas2D {
       const centerY: number = this.context?.canvas.height * 0.5
 
       this.context.fillStyle = 'red'
+      this.context.font = '40px Arial'
       this.context.fillText(text, centerX, centerY)
+
       this.context.strokeStyle = 'green'
       this.context.strokeText(text, centerX, centerY)
 
