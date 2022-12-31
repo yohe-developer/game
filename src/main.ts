@@ -1,3 +1,3 @@
 import './index.scss'
 
-import './IDoom3'
+import './application'
