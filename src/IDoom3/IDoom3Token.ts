@@ -3,7 +3,7 @@
  * Created by aio on 2022/12/29.
  */
 
-enum ETokenType {
+export enum ETokenType {
   NONE,
   STRING,
   NUMBER
@@ -24,7 +24,7 @@ export interface IDoom3Tokenizer {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-class Doom3Token implements IDoom3Token {
+export class Doom3Token implements IDoom3Token {
   private readonly _charArr: string[] = []
 
   private _val!: number
@@ -118,7 +118,147 @@ export class Doom3Tokenizer implements IDoom3Tokenizer {
     }
   }
 
-  getNextToken(token: IDoom3Token): boolean {
+  private _skipWhitespace(): string {
+    let c = ''
+    do {
+      c = this._getChar()
+    } while (c.length > 0 && this._isWhitespace(c))
+    return c
+  }
+
+  private _skipComments0(): string {
+    let c = ''
+    do {
+      c = this._getChar()
+    } while (c.length > 0 && c !== '\n')
+    return c
+  }
+
+  private _skipComments1(): string {
+    let c = ''
+    c = this._getChar()
+    do {
+      c = this._getChar()
+    } while (c.length > 0 && c !== '*' && this._peekChar() !== '/')
+    c = this._getChar()
+    return c
+  }
+
+  private _getNumber(token: Doom3Token): void {
+    let val: number = 0.0
+    let isFloat: boolean = false
+    let scaleValue: number = 0.1
+
+    let c: string = this._getChar()
+
+    const isNegate: boolean = c === '-'
+    let consumed: boolean = false
+
+    const ascii0 = '0'.charCodeAt(0)
+
+    do {
+      token.addChar(c)
+      if (c === '.') {
+        isFloat = true
+      } else if (c !== '-' && c !== '+') {
+        const ascii: number = c.charCodeAt(0)
+        const vc: number = ascii - ascii0
+        if (!isFloat) {
+          val = 10 * val + vc
+        } else {
+          val = val + scaleValue * vc
+          scaleValue *= 0.1
+        }
+      }
+      if (consumed) {
+        this._getChar()
+      }
+      c = this._peekChar()
+      consumed = true
+    } while (c.length > 0 && (this._isDigit(c) || (!isFloat && c === '.')))
+    if (isNegate) {
+      val = -val
+    }
+    token.setVal(val)
+  }
+
+  private _isSpecialChar(c: string): boolean {
+    switch (c) {
+      case '(':
+        return true
+      case ')':
+        return true
+      case '[':
+        return true
+      case ']':
+        return true
+      case '{':
+        return true
+      case '}':
+        return true
+      case ',':
+        return true
+      case '.':
+        return true
+    }
+    return false
+  }
+
+  private _getString(token: Doom3Token): void {
+    let c: string = this._getChar()
+    token.setType(ETokenType.STRING)
+    do {
+      token.addChar(c)
+
+      if (!this._isSpecialChar(c)) {
+        c = this._getChar()
+      }
+    } while (c.length > 0 && !this._isWhitespace(c) && !this._isSpecialChar(c))
+  }
+
+  private _getSubstring(token: Doom3Token, endChar: string): void {
+    let end: boolean = false
+    let c: string = ''
+    token.setType(ETokenType.STRING)
+    do {
+      c = this._getChar()
+      if (c === endChar) {
+        end = true
+      } else {
+        token.addChar(c)
+      }
+    } while (c.length > 0 && c !== '\n' && !end)
+  }
+
+  getNextToken(tok: IDoom3Token): boolean {
+    const token = tok as Doom3Token
+    let c: string = ''
+    token.reset()
+
+    do {
+      c = this._skipWhitespace()
+      if (c === '/' && this._peekChar() === '/') {
+        c = this._skipComments0()
+      } else if (c === '/' && this._peekChar() === '*') {
+        this._skipComments1()
+      } else if (
+        this._isDigit(c) ||
+        c === '-' ||
+        c === '+' ||
+        (c === '.' && this._isDigit(this._peekChar()))
+      ) {
+        this._unGetChar()
+        this._getNumber(token)
+        return true
+      } else if (c === "'" || c === '"') {
+        this._getSubstring(token, c)
+        return true
+      } else if (c.length > 0) {
+        this._unGetChar()
+        this._getString(token)
+        return true
+      }
+    } while (c.length > 0)
     return false
   }
 
