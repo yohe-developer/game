@@ -2,6 +2,7 @@
  * Description：IDoom3Token
  * Created by aio on 2022/12/29.
  */
+import { IEnumerator } from '@/IDoom3/IEnumerator'
 
 export enum ETokenType {
   NONE,
@@ -17,14 +18,12 @@ export interface IDoom3Token {
   getInt: () => number
 }
 
-export interface IDoom3Tokenizer {
+export interface IDoom3Tokenizer extends IEnumerator<IDoom3Token> {
   setSource: (source: string) => void
-  reset: () => void
-  getNextToken: (token: IDoom3Token) => boolean
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export class Doom3Token implements IDoom3Token {
+class Doom3Token implements IDoom3Token {
   private readonly _charArr: string[] = []
 
   private _val!: number
@@ -83,12 +82,22 @@ export class Doom3Token implements IDoom3Token {
   }
 }
 
-export class Doom3Tokenizer implements IDoom3Tokenizer {
+class Doom3Tokenizer implements IDoom3Tokenizer {
   private readonly _whiteSpaces: string[] = [' ', '\t', '\v', '\n', '\r']
 
   private readonly _digits: string[] = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
-  private _source: string = 'Doom3Tokenizer'
+  private _source: string = ''
   private _currIdx: number = 0
+
+  private readonly _current: IDoom3Token = new Doom3Token()
+
+  public moveNext(): boolean {
+    return this._getNextToken(this._current)
+  }
+
+  public get current(): IDoom3Token {
+    return this._current
+  }
 
   private _isDigit(c: string): boolean {
     return this._digits.some((item) => item === c)
@@ -135,7 +144,7 @@ export class Doom3Tokenizer implements IDoom3Tokenizer {
   }
 
   private _skipComments1(): string {
-    let c = ''
+    let c: string
     c = this._getChar()
     do {
       c = this._getChar()
@@ -185,23 +194,17 @@ export class Doom3Tokenizer implements IDoom3Tokenizer {
   private _isSpecialChar(c: string): boolean {
     switch (c) {
       case '(':
-        return true
       case ')':
-        return true
       case '[':
-        return true
       case ']':
-        return true
       case '{':
-        return true
       case '}':
-        return true
       case ',':
-        return true
       case '.':
         return true
+      default:
+        return false
     }
-    return false
   }
 
   private _getString(token: Doom3Token): void {
@@ -230,7 +233,7 @@ export class Doom3Tokenizer implements IDoom3Tokenizer {
     } while (c.length > 0 && c !== '\n' && !end)
   }
 
-  getNextToken(tok: IDoom3Token): boolean {
+  private _getNextToken(tok: IDoom3Token): boolean {
     const token = tok as Doom3Token
     let c: string = ''
     token.reset()
@@ -269,5 +272,12 @@ export class Doom3Tokenizer implements IDoom3Tokenizer {
   setSource(source: string): void {
     this._source = source
     this._currIdx = 0
+  }
+}
+
+// eslint-disable-next-line @typescript-eslint/no-extraneous-class
+export class Doom3Factory {
+  public static create3Tokenizer(): IDoom3Tokenizer {
+    return new Doom3Tokenizer()
   }
 }
