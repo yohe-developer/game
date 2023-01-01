@@ -3,8 +3,13 @@
  */
 import { Vec2 } from '@/application/math2d'
 import { CanvasKeyBoardEvent, CanvasMouseEvent } from '@/application/Event'
+import { Timer, TimerCallback } from '@/application/Timer'
 
 export class Application implements EventListenerObject {
+  public timers: Timer[] = []
+  private _timerId: number = -1
+
+  private _fps: number = 0
   protected _start: boolean = false
   protected _requestId: number = -1
   protected _lastTime!: number
@@ -95,16 +100,25 @@ export class Application implements EventListenerObject {
     return this._start
   }
 
+  public get fps(): number {
+    return this._fps
+  }
+
   protected step(timeStamp: number): void {
     if (this._startTime === -1) this._startTime = timeStamp
     if (this._lastTime === -1) this._lastTime = timeStamp
 
     const elapsedMsec: number = timeStamp - this._startTime
-    const intervalMsec: number = (timeStamp - this._lastTime) / 1000.0
+    let intervalSec: number = timeStamp - this._lastTime
+
+    if (intervalSec !== 0) {
+      this._fps = 1000.0 / intervalSec
+    }
+    intervalSec /= 1000.0
 
     this._lastTime = timeStamp
-    console.log(elapsedMsec, intervalMsec, 'elapsedMsec, intervalMsec')
-    this.update(elapsedMsec, intervalMsec)
+    this._handleTimers(intervalSec)
+    this.update(elapsedMsec, intervalSec)
     this.render()
     this._requestId = requestAnimationFrame((elapsedMsec: number) => this.step(elapsedMsec))
   }
@@ -180,5 +194,64 @@ export class Application implements EventListenerObject {
       event.shiftKey
     )
     return canvasKeyBoardEvent
+  }
+
+  private _handleTimers(intervalSec): void {
+    this.timers.forEach((timer) => {
+      if (timer.enable) {
+        timer.countdown -= intervalSec
+        if (timer.countdown < 0.0) {
+          timer.callback(timer.id, timer.callbackData)
+          if (!timer.onlyOnce) {
+            timer.countdown = timer.timeout
+          } else {
+            this.removeTimer(timer.id)
+          }
+        }
+      }
+    })
+  }
+
+  public addTimer(
+    callback: TimerCallback,
+    timeout: number = 1.0,
+    onlyOnce: boolean = false,
+    data: any = undefined
+  ): number {
+    const timerIndex = this.timers.findIndex((timer) => !timer.enable)
+    if (timerIndex !== -1) {
+      this.timers[timerIndex] = {
+        id: this.timers[timerIndex].id,
+        callback,
+        callbackData: data,
+        timeout,
+        countdown: timeout,
+        enable: true,
+        onlyOnce
+      }
+      return this.timers[timerIndex].id
+    }
+    const timer = new Timer(callback)
+    timer.callbackData = data
+    timer.timeout = timeout
+    timer.countdown = timeout
+    timer.enable = true
+    timer.id = ++this._timerId
+    timer.onlyOnce = onlyOnce
+    this.timers.push(timer)
+
+    return timer.id
+  }
+
+  public removeTimer(id: number): boolean {
+    let found: boolean = false
+    this.timers = this.timers.map((timer) => {
+      if (timer.id === id) {
+        timer.enable = false
+        found = true
+      }
+      return timer
+    })
+    return found
   }
 }

@@ -6,15 +6,15 @@ import { CanvasKeyBoardEvent, CanvasMouseEvent } from './Event'
 
 class ApplicationTest extends Application {
   protected dispatchKeyDown(evt: CanvasKeyBoardEvent): void {
-    console.log(` key : ${evt.key} is down `)
+    // console.log(` key : ${evt.key} is down `)
   }
 
   protected dispatchMouseDown(evt: CanvasMouseEvent): void {
-    console.log(` canvasPosition : ${evt.canvasPosition.toString()}`)
+    // console.log(` canvasPosition : ${evt.canvasPosition.toString()}`)
   }
 
   public update(elapsedMsec: number, intervalSec: number): void {
-    console.log(` elapsedMsec : ${elapsedMsec} intervalSec : ${intervalSec}`)
+    // console.log(` elapsedMsec : ${elapsedMsec} intervalSec : ${intervalSec}`)
   }
 
   public render(): void {
@@ -32,10 +32,18 @@ app.render()
 const startButton: HTMLButtonElement | null = document.getElementById('start') as HTMLButtonElement
 const stopButton: HTMLButtonElement | null = document.getElementById('stop') as HTMLButtonElement
 
+function timerCallback(id: number, data: string): void {
+  console.log(id, data, 'id-data')
+}
+
+const timer0 = app.addTimer(timerCallback, 3, false, 'data- timeCallback')
+
 startButton.onclick = (ev: MouseEvent): void => {
   app.start()
 }
 
 stopButton.onclick = (ev: MouseEvent): void => {
   app.stop()
+  app.removeTimer(timer0)
+  console.log(app.timers.length)
 }
