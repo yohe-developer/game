@@ -124,9 +124,34 @@ export class Application implements EventListenerObject {
       if (evt.type === 'mousedown') {
         console.log('getBoundingClientRect' + JSON.stringify(rect))
       }
-      const x: number = evt.clientX - rect.left
-      const y: number = evt.clientY - rect.top
-      return Vec2.create(x, y)
+      if (evt.target) {
+        let borderLeftWidth: number = 0
+        let borderTopWidth: number = 0
+        let paddingLeft: number = 0
+        let paddingTop: number = 0
+
+        const decl: CSSStyleDeclaration = window.getComputedStyle(evt.target as HTMLElement)
+        let strNumber: string | null = decl.borderLeftWidth
+        if (strNumber !== null) {
+          borderLeftWidth = parseInt(strNumber, 10)
+        }
+        strNumber = decl.borderTopWidth
+        if (strNumber !== null) {
+          borderTopWidth = parseInt(strNumber, 10)
+        }
+        strNumber = decl.paddingLeft
+        if (strNumber !== null) {
+          paddingLeft = parseInt(strNumber, 10)
+        }
+        strNumber = decl.paddingTop
+        if (strNumber !== null) {
+          paddingTop = parseInt(strNumber, 10)
+        }
+
+        const x: number = evt.clientX - rect.left - borderLeftWidth - paddingLeft
+        const y: number = evt.clientY - rect.top - borderTopWidth - paddingTop
+        return Vec2.create(x, y)
+      }
     }
     throw new Error('canvas is null')
   }
