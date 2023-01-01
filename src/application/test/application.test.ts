@@ -1,8 +1,8 @@
 /**
  * Created by aio on 2023/1/1 09:19
  */
-import { Application } from '@/application/Application'
-import { CanvasKeyBoardEvent, CanvasMouseEvent } from './Event'
+import { Application } from '@/application/src/Application'
+import { CanvasKeyBoardEvent, CanvasMouseEvent } from '../src/Event'
 
 class ApplicationTest extends Application {
   protected dispatchKeyDown(evt: CanvasKeyBoardEvent): void {

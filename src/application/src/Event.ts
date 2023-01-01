@@ -1,7 +1,7 @@
 /**
  * Created by aio on 2023/1/1 08:52
  */
-import { Vec2 } from '@/application/math2d'
+import { Vec2 } from '@/application/src/math2d'
 
 export enum EInputEventType {
   MOUSEEVENT,
