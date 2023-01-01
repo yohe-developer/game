@@ -1,5 +1,25 @@
 
-#canvas{
-  width: 100vw;
-  height: 100vh;
+body {
+  background: #eeeeee;
+}
+/*
+css选择器：# 表示id选择器
+*/
+#canvas {
+  background: #ffffff ; /* 背景白色 */
+  margin: 10px 15px 20px 25px; /*我们将canvas的margin设置为4个数值*/
+
+  border-style: solid ;
+  border-width: 25px 35px 20px 30px ; /*  top - right - bottom - left 顺序 */
+  border-color: gray ;
+
+  /* 使用各种单位表示padding */
+  padding-top: 10px ;
+  padding-right: 0.25em ;
+  padding-bottom: 2ex ;
+  padding-left: 20% ;
+
+  -webkit-box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5);
+  -moz-box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5);
+  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5);
 }
