@@ -67,12 +67,22 @@ export class Size {
   }
 }
 
+export class Math2D {
+  public static isEquals(left: number, right: number, epsilon: number = Number.EPSILON): boolean {
+    return Math.abs(left - right) < epsilon
+  }
+}
 export class Rectangle {
   public origin: Vec2
   public size: Size
   public constructor(origin: Vec2 = new Vec2(), size: Size = new Size(1, 1)) {
     this.origin = origin
     this.size = size
+  }
+
+  public isEmpty(): boolean {
+    const area: number = this.size.width * this.size.height
+    return Math2D.isEquals(area, 0)
   }
 
   public static create(x: number = 0, y: number = 0, w: number = 1, h: number = 1): Rectangle {

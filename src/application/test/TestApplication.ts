@@ -48,6 +48,12 @@ type FontSize =
   | 'large'
   | 'x-large'
   | 'xx-large'
+export enum EImageFillType {
+  STRETCH,
+  REPEAT,
+  REPEAT_X,
+  REPEAT_Y
+}
 
 type FontFamily = 'sans-serif' | 'serif' | 'courier' | 'fantasy' | 'monospace'
 export enum ELayout {
@@ -89,7 +95,8 @@ export class TestApplication extends Canvas2DApplication {
     // this.strokeCoord(12, 12, this.canvas.width, this.canvas.height)
     // this.strokeGrid()
     // this.testCanvas2DTextLayout()
-    this.testMyTextLayout()
+    // this.testMyTextLayout()
+    this.loadAndDrawImage(TEST_IMG)
   }
 
   public timeCallback(id: number, data: any): void {
@@ -603,5 +610,102 @@ export class TestApplication extends Canvas2DApplication {
     const ret: string = strs.join(' ')
     console.log(ret)
     return ret
+  }
+
+  public loadAndDrawImage(image: any): void {
+    const img: HTMLImageElement = document.createElement('img')
+    img.src = image
+    img.onload = (ev: Event) => {
+      console.dir(img)
+      // this.context2D?.drawImage(img, img.width + 30, 10, 200, img.height)
+      // this.context2D?.drawImage(img, 44, 6, 162, 175, 200, img.height + 30, 200, 130)
+      this.drawImage(img, Rectangle.create(0, 0, 640, 600), undefined, EImageFillType.REPEAT)
+    }
+  }
+
+  public fillRectangleWithColor(rect: Rectangle, color: string): void {
+    if (rect.isEmpty()) {
+      return
+    }
+    if (this.context2D !== null) {
+      this.context2D.save()
+      this.context2D.fillStyle = color
+      this.context2D.fillRect(rect.origin.x, rect.origin.y, rect.size.width, rect.size.height)
+      this.context2D.restore()
+    }
+  }
+
+  public drawImage(
+    img: HTMLImageElement | HTMLCanvasElement,
+    destRect: Rectangle,
+    srcRect: Rectangle = Rectangle.create(0, 0, img.width, img.height),
+    fillType: EImageFillType = EImageFillType.STRETCH
+  ): boolean {
+    if (srcRect.isEmpty()) {
+      return false
+    }
+    if (destRect.isEmpty()) {
+      return false
+    }
+    console.log(img, 'img')
+    if (fillType === EImageFillType.STRETCH) {
+      this.context2D?.drawImage(
+        img,
+        srcRect.origin.x,
+        srcRect.origin.y,
+        srcRect.size.width,
+        srcRect.size.height,
+        destRect.origin.x,
+        destRect.origin.y,
+        destRect.size.width,
+        destRect.size.height
+      )
+    } else {
+      this.fillRectangleWithColor(destRect, 'grey')
+      let rows: number = Math.ceil(destRect.size.width / srcRect.size.width)
+      let colums: number = Math.ceil(destRect.size.height / srcRect.size.height)
+      let left: number = 0
+      let top: number = 0
+      let right: number = 0
+      let bottom: number = 0
+      let width: number = 0
+      let height: number = 0
+      const destRight: number = destRect.origin.x + destRect.size.width
+      const destBottom: number = destRect.origin.y + destRect.size.height
+      if (fillType === EImageFillType.REPEAT_X) {
+        colums = 1
+      } else if (fillType === EImageFillType.REPEAT_Y) {
+        rows = 1
+      }
+      for (let i: number = 0; i < rows; i++) {
+        for (let j: number = 0; j < colums; j++) {
+          left = destRect.origin.x + i * srcRect.size.width
+          top = destRect.origin.y + j * srcRect.size.height
+
+          width = srcRect.size.width
+          height = srcRect.size.height
+          right = left + width
+          bottom = top + height
+          if (right > destRight) {
+            width = srcRect.size.width - (right - destRight)
+          }
+          if (bottom > destBottom) {
+            height = srcRect.size.height - (bottom - destBottom)
+          }
+          this.context2D?.drawImage(
+            img,
+            srcRect.origin.x,
+            srcRect.origin.y,
+            width,
+            height,
+            left,
+            top,
+            width,
+            height
+          )
+        }
+      }
+    }
+    return false
   }
 }

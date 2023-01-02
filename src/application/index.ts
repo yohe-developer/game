@@ -12,4 +12,4 @@ import { TestApplication } from '@/application/test/TestApplication'
 const canvas: HTMLCanvasElement | null = document.getElementById('canvas') as HTMLCanvasElement
 
 const app: Application = new TestApplication(canvas)
-app.start()
+app.render()
