@@ -67,9 +67,19 @@ export class Size {
   }
 }
 
-class Math2D {
+const PI_BY_180 = Math.PI / 180
+
+export class Math2D {
   public static isEquals(left: number, right: number, epsilon: number = Number.EPSILON): boolean {
     return Math.abs(left - right) < epsilon
+  }
+
+  public static toRadian(radian: number) {
+    return radian * PI_BY_180
+  }
+
+  public static toDegree(radian: number) {
+    return radian / PI_BY_180
   }
 }
 export class Rectangle {

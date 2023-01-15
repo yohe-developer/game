@@ -393,6 +393,24 @@ export class MethodApplication extends Canvas2DApplication {
     return new Rectangle(o, s)
   }
 
+  public strokeCircle(
+    x: number,
+    y: number,
+    radius: number,
+    color: string = 'red',
+    lineWidth: number = 1
+  ) {
+    if (this.context2D !== null) {
+      this.context2D.save()
+      this.context2D.strokeStyle = 'color'
+      this.context2D.lineWidth = lineWidth
+      this.context2D.beginPath()
+      this.context2D.arc(x, y, radius, 0, Math.PI * 2)
+      this.context2D.stroke()
+      this.context2D.restore()
+    }
+  }
+
   public fillRectWithTitle(
     x: number,
     y: number,
@@ -608,7 +626,6 @@ export class MethodApplication extends Canvas2DApplication {
     strs.push(size)
     strs.push(family)
     const ret: string = strs.join(' ')
-    console.log(ret)
     return ret
   }
 
@@ -616,7 +633,6 @@ export class MethodApplication extends Canvas2DApplication {
     const img: HTMLImageElement = document.createElement('img')
     img.src = image
     img.onload = (ev: Event) => {
-      console.dir(img)
       // this.context2D?.drawImage(img, img.width + 30, 10, 200, img.height)
       // this.context2D?.drawImage(img, 44, 6, 162, 175, 200, img.height + 30, 200, 130)
       this.drawImage(img, Rectangle.create(0, 0, 640, 600), undefined, EImageFillType.REPEAT)
