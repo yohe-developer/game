@@ -1,9 +1,9 @@
 /**
  * Created by aio on 2022/12/31 16:14
  */
-import { Vec2 } from '@/application/src/math2d'
-import { CanvasKeyBoardEvent, CanvasMouseEvent } from '@/application/src/Event'
-import { Timer, TimerCallback } from '@/application/src/Timer'
+import { Vec2 } from '@/application/src/lib/math2d'
+import { CanvasKeyBoardEvent, CanvasMouseEvent } from '@/application/src/lib/Event'
+import { Timer, TimerCallback } from '@/application/src/lib/Timer'
 
 export class Application implements EventListenerObject {
   public timers: Timer[] = []

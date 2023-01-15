@@ -1,10 +1,10 @@
 /**
  * Created by aio on 2023/1/15 12:13
  */
-import { TestApplication } from '@/application/test/TestApplication'
+import { MethodApplication } from '@/application/src/utils/MethodApplication'
 
 const PI_BY_180 = Math.PI / 180
-export class TestApplication05 extends TestApplication {
+export class TestApplication05 extends MethodApplication {
   private _mouseX = 0
   private _mouseY = 0
 

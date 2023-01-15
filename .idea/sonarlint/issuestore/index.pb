@@ -19,8 +19,6 @@ J
 src/IDoom3/asserts/file.ts,3/b/3b1fbd99c89da22ca4b956d425924e03fe75f672
 I
 src/IDoom3/IDoom3Token.ts,1/a/1a4b1edf6f2b06a231c5178f56b5ee8414caa1c7
-=
-tsconfig.json,6/1/61ebb9fd6e8cf9082658121d5d81e297791dacd0
 :
 
 .gitignore,a/5/a5cc2925ca8258af241be7e5b0381edf30266302
@@ -31,5 +29,3 @@ I
 index.html,f/6/f6013a00b362253c64368d6eebc50ea2131754e2
 ;
 src/main.ts,1/a/1af9a5bdf96ddff3a2f3427ed520b7005e9564ad
-M
-src/application/src/math2d.ts,0/a/0ae57a33098cc91d9164631ca8b5fe92703bad3f

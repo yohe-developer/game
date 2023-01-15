@@ -1,4 +1,4 @@
-import { Application } from './Application'
+import { Application } from '@/application/src/lib/Application'
 
 /**
  * Created by aio on 2023/1/1 11:15

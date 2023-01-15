@@ -22,16 +22,6 @@
     "noEmit": true,
     "jsx": "react"
   },
-  "include": [
-    "src",
-    "test",
-    "*.ts"
-  ],
-  "exclude": [
-    "node_modules",
-    "dist",
-    "build",
-    "script",
-    "config"
-  ]
+  "include": ["src/**/*", "test", "*.ts"],
+  "exclude": ["node_modules", "dist", "build", "script", "config"]
 }

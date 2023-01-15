@@ -4,11 +4,9 @@
 
 // import '../test/ApplicationTest'
 
-import './src/RenderState'
-import './test/TestApplication'
-import { Application } from '@/application/src/Application'
-// import { TestApplication } from '@/application/test/TestApplication'
-import { TestApplication05 } from '@/application/test/testApplication05'
+import './exercise/RenderState'
+import { Application } from '@/application/src/lib/Application'
+import { TestApplication05 } from '@/application/playground/testApplication05'
 
 const canvas: HTMLCanvasElement | null = document.getElementById('canvas') as HTMLCanvasElement
 

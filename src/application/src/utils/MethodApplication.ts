@@ -1,9 +1,9 @@
 /**
  * Created by aio on 2023/1/1 12:51
  */
-import TEST_IMG from '../data/test.jpg'
-import { Canvas2DApplication } from '@/application/src/Canvas2DApplication'
-import { Rectangle, Size, Vec2 } from '../src/math2d'
+import TEST_IMG from '../../data/test.jpg'
+import { Canvas2DApplication } from '@/application/src/view/Canvas2DApplication'
+import { Rectangle, Size, Vec2 } from '../lib/math2d'
 
 type TextAlign = 'start' | 'left' | 'center' | 'right' | 'end'
 
@@ -14,7 +14,6 @@ type FontType = '10px sans-serif' | '15px sans-serif' | '20px sans-serif' | '25p
 type FontStyle = 'normal' | 'italic' | 'oblique'
 
 type FontVariant = 'normal' | 'small-caps'
-
 type FontWeight =
   | 'normal'
   | 'bold'
@@ -69,7 +68,7 @@ export enum ELayout {
 }
 
 type PatternRepeat = 'repeat' | 'repeat-x' | 'repeat-y' | 'no-repeat'
-export class TestApplication extends Canvas2DApplication {
+export class MethodApplication extends Canvas2DApplication {
   private _lineDashOffset: number = 0
   private _linearGradient!: CanvasGradient
   private _radialGradient!: CanvasGradient
@@ -726,7 +725,7 @@ export class TestApplication extends Canvas2DApplication {
         const idx = step * i + j
         context.save()
 
-        context.fillStyle = TestApplication.Colors[idx]
+        context.fillStyle = MethodApplication.Colors[idx]
         context?.fillRect(i * amount, j * amount, amount, amount)
         context?.restore()
       }

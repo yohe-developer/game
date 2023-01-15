@@ -1,7 +1,7 @@
 /**
  * Created by aio on 2023/1/1 09:22
  */
-import { Application } from '@/application/src/Application'
+import { Application } from '@/application/src/lib/Application'
 
 export class Canvas2DApplication extends Application {
   public context2D: CanvasRenderingContext2D | null

@@ -67,7 +67,7 @@ export class Size {
   }
 }
 
-export class Math2D {
+class Math2D {
   public static isEquals(left: number, right: number, epsilon: number = Number.EPSILON): boolean {
     return Math.abs(left - right) < epsilon
   }
