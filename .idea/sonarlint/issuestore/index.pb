@@ -21,8 +21,6 @@ I
 src/IDoom3/IDoom3Token.ts,1/a/1a4b1edf6f2b06a231c5178f56b5ee8414caa1c7
 =
 tsconfig.json,6/1/61ebb9fd6e8cf9082658121d5d81e297791dacd0
-<
-.eslintrc.js,d/b/dbc0c31823b8f2e4ed04a397722fed33a67f123f
 :
 
 .gitignore,a/5/a5cc2925ca8258af241be7e5b0381edf30266302

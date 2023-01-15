@@ -87,7 +87,7 @@ export class TestApplication extends Canvas2DApplication {
   }
 
   public render(): void {
-    this.context2D?.clearRect(0, 0, this.context2D?.canvas.width, this.context2D?.canvas.height)
+    // this.context2D?.clearRect(0, 0, this.context2D?.canvas.width, this.context2D?.canvas.height)
     // this.fillLinearRect(0, 0, this.canvas.width, this.canvas.height)
     // this.fillRadialRect(0, 0, this.canvas.width, this.canvas.height)
     // this.fillPatternRect(0, 0, this.canvas.width, this.canvas.height)
@@ -97,7 +97,7 @@ export class TestApplication extends Canvas2DApplication {
     // this.testCanvas2DTextLayout()
     // this.testMyTextLayout()
     // this.loadAndDrawImage(TEST_IMG)
-    this.testChangePartCanvasImageData()
+    // this.testChangePartCanvasImageData()
   }
 
   public timeCallback(id: number, data: any): void {

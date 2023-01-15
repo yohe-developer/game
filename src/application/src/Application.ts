@@ -171,7 +171,6 @@ export class Application implements EventListenerObject {
   }
 
   private _toCanvasMouseEvent(evt: Event): CanvasMouseEvent {
-    console.log(evt)
     const event: MouseEvent = evt as MouseEvent
     const mousePosition: Vec2 = this._viewportToCanvasCoordinate(event)
     const canvasMouseEvent: CanvasMouseEvent = new CanvasMouseEvent(
