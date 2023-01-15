@@ -96,7 +96,8 @@ export class TestApplication extends Canvas2DApplication {
     // this.strokeGrid()
     // this.testCanvas2DTextLayout()
     // this.testMyTextLayout()
-    this.loadAndDrawImage(TEST_IMG)
+    // this.loadAndDrawImage(TEST_IMG)
+    this.testChangePartCanvasImageData()
   }
 
   public timeCallback(id: number, data: any): void {
@@ -707,5 +708,88 @@ export class TestApplication extends Canvas2DApplication {
       }
     }
     return false
+  }
+
+  public getColorsCanvas(amount: number = 52): HTMLCanvasElement {
+    const step = 4
+    const canvas = document.createElement('canvas')
+
+    canvas.width = amount * step
+    canvas.height = amount * step
+
+    const context: CanvasRenderingContext2D | null = canvas.getContext('2d')
+    if (context === null) {
+      throw new Error('离屏Canvas 获取失败')
+    }
+    for (let i = 0; i < step; i++) {
+      for (let j = 0; j < step; j++) {
+        const idx = step * i + j
+        context.save()
+
+        context.fillStyle = TestApplication.Colors[idx]
+        context?.fillRect(i * amount, j * amount, amount, amount)
+        context?.restore()
+      }
+    }
+    return canvas
+  }
+
+  public testChangePartCanvasImageData(
+    rRow = 2,
+    rColum = 0,
+    cRow = 1,
+    cCloum = 0,
+    size = 52
+  ): void {
+    const colorCanvas = this.getColorsCanvas(size)
+    const context = colorCanvas.getContext('2d')
+    if (context === null) {
+      throw new Error('离屏Canvas 获取失败')
+    }
+    this.setShadowState()
+
+    this.drawImage(colorCanvas, Rectangle.create(100, 100, colorCanvas.width, colorCanvas.height))
+
+    const imgData = context.createImageData(size, size)
+
+    const data = imgData.data
+    const rgbaCount = data.length / 4
+    for (let i = 0; i < rgbaCount; i++) {
+      data[i * 4 + 0] = 255
+      data[i * 4 + 1] = 0
+      data[i * 4 + 2] = 0
+      data[i * 4 + 3] = 255
+    }
+    console.log(imgData)
+
+    let component = 0
+
+    for (let i = 0; i < imgData.width; i++) {
+      for (let j = 0; j < imgData.height; j++) {
+        for (let k = 0; k < 4; k++) {
+          const idx = (i * imgData.height + j) * 4 + k
+          component = data[idx]
+          if (idx % 4 !== 3) {
+            data[idx] = 255 - component - 100
+          }
+        }
+      }
+    }
+    context.putImageData(imgData, size * rColum, size * rRow, 0, 0, size, size)
+    this.drawImage(colorCanvas, Rectangle.create(300, 300, colorCanvas.width, colorCanvas.height))
+  }
+
+  public setShadowState(
+    shadowBlur = 5,
+    shadowColor = 'rgba(127,127,127, .5)',
+    shadowOffsetX = 10,
+    shadowOffsetY = 10
+  ): void {
+    if (this.context2D !== null) {
+      this.context2D.shadowBlur = shadowBlur
+      this.context2D.shadowColor = shadowColor
+      this.context2D.shadowOffsetX = shadowOffsetX
+      this.context2D.shadowOffsetY = shadowOffsetY
+    }
   }
 }

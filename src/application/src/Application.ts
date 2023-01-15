@@ -136,7 +136,7 @@ export class Application implements EventListenerObject {
     if (this.canvas) {
       const rect: DOMRect = this.canvas.getBoundingClientRect()
       if (evt.type === 'mousedown') {
-        console.log('getBoundingClientRect' + JSON.stringify(rect))
+        console.log('canvas getBoundingClientRect' + JSON.stringify(rect))
       }
       if (evt.target) {
         let borderLeftWidth: number = 0
@@ -171,6 +171,7 @@ export class Application implements EventListenerObject {
   }
 
   private _toCanvasMouseEvent(evt: Event): CanvasMouseEvent {
+    console.log(evt)
     const event: MouseEvent = evt as MouseEvent
     const mousePosition: Vec2 = this._viewportToCanvasCoordinate(event)
     const canvasMouseEvent: CanvasMouseEvent = new CanvasMouseEvent(
