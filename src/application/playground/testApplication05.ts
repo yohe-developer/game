@@ -236,7 +236,7 @@ export class TestApplication05 extends MethodApplication {
 
       this.context2D.translate(x, y)
 
-      this.fillLocalRectWithTitle(width, height, '', layout)
+      this.fillLocalRectWithTitle(width, height, layout.toString(), layout)
 
       this.context2D.restore()
 
@@ -255,7 +255,7 @@ export class TestApplication05 extends MethodApplication {
       this.rotateTranslate(-8, ELayout.CENTER_BOTTOM)
       this.rotateTranslate(-16, ELayout.RIGHT_TOP)
       this.rotateTranslate(-24, ELayout.RIGHT_MIDDLE)
-      this.rotateTranslate(-32, ELayout.RIGHT_BOTTOM)
+      this.rotateTranslate(-45, ELayout.RIGHT_BOTTOM)
       const radius: number = this.distance(
         0,
         0,
