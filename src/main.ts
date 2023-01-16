@@ -1,3 +1,3 @@
 import './index.scss'
 
-import './application'
+import './playground'
