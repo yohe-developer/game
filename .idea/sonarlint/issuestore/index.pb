@@ -20,5 +20,3 @@ I
 :
 
 .gitignore,a/5/a5cc2925ca8258af241be7e5b0381edf30266302
->
-src/index.scss,5/b/5bfd084cc3a318b78f32da1cd49fc9f987fb897f

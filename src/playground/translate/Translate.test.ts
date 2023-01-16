@@ -10,7 +10,7 @@ import { TranslateApplication } from '@/playground/translate/Translate'
 
 const canvas = document.getElementById('canvas') as HTMLCanvasElement
 const app = new TranslateApplication(canvas)
-console.log(app)
+app.render()
 const stop = document.getElementById('stop') as HTMLElement
 stop.addEventListener('click', () => {
   app.stop()
