@@ -1,14 +1,9 @@
 /**
- * Created by aio on 2022/12/31 16:00
+ * Created by aio on 2023/1/16 09:29
  */
 
-// import '../test/ApplicationTest'
+import { Application } from '@/application/Application'
 
-import './exercise/RenderState'
-import { Application } from '@/application/src/lib/Application'
-import { TestApplication05 } from '@/application/playground/testApplication05'
+const app = new Application()
 
-const canvas: HTMLCanvasElement | null = document.getElementById('canvas') as HTMLCanvasElement
-
-const app: Application = new TestApplication05(canvas)
-app.start()
+console.log(app);

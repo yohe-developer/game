@@ -9,8 +9,6 @@ G
 jest.config.js,8/8/881d5d47bdc17ef8facebef59b68b5fc099a0293
 B
 test/HelloWorld.ts,a/1/a1c59ca4c40098b435516060f421cfbf071f9f5f
-G
-test/Helloworld.test.ts,7/e/7eb4eb4a1726e7677bff07b09a0694d729c0bcc0
 C
 src/IDoom3/index.ts,3/e/3ec1fe506a858fa2a4936a8a45aa83f1fc093523
 P
@@ -27,5 +25,3 @@ I
 :
 
 index.html,f/6/f6013a00b362253c64368d6eebc50ea2131754e2
-;
-src/main.ts,1/a/1af9a5bdf96ddff3a2f3427ed520b7005e9564ad
